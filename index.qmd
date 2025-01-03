@@ -48,7 +48,7 @@ library(ggplot2)
 #| input:
 #|   - node
 
-ts <- get_parameters(node =  node, parameters = c("hs", "tp", "dp"),end="1994-01-01 23:00:00")
+ts <- get_parameters(node =  node, parameters = c("hs", "tp", "dp"),end="1999-12-31 23:00:00")
 ```
 
 ::: {.panel-tabset}
