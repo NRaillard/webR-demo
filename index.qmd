@@ -11,7 +11,6 @@ format:
       packages:
         - ggplot2
         - hexbin
-        - plotly
         - resourcecodedata
         - resourcecode
         - openair
@@ -41,7 +40,6 @@ This is a webR-enabled code cell in a Quarto HTML document.
 library(resourcecodedata)
 library(resourcecode)
 library(ggplot2)
-library(plotly)
 ```
 
 ```{webr}
@@ -59,20 +57,28 @@ ts <- get_parameters(node =  node, parameters = c("hs", "tp", "dp"),end="1994-01
 
 ```{webr}
 #| autorun: true
+#| fig-width: 8
+#| fig-height: 5
 summary(ts)
 ```
 
 ## Time series
 
 ```{webr}
-plot_ly(ts, x = ~time,y= ~hs ,type='scatter',mode='both')
+#| fig-width: 8
+#| fig-height: 5
+ggplot(data=ts)+
+  aes(x = time,y= hs)+
+  geom_line()+
+  theme_bw()
 ```
 
 ## Bivariate plot
 
 ```{webr}
 #| autorun: true
-
+#| fig-width: 8
+#| fig-height: 5
 ggplot(data=ts)+
   aes(x=hs,y=tp)+
   geom_hex()+
@@ -82,7 +88,8 @@ ggplot(data=ts)+
 
 ```{webr}
 #| autorun: true
-
+#| fig-width: 8
+#| fig-height: 5
 ggplot(data=ts)+
   aes(x=hs,y=dp)+
   geom_hex()+
@@ -94,7 +101,9 @@ ggplot(data=ts)+
 
 ```{webr}
 #| autorun: true
-openair::windRose(ts,ws = "hs",wd = "dp",angle = 10,paddle = FALSE,key.footer = "m",key.header = "Hs",key = list(footer="Significant Wave Height (m)"),ws.int = .3)
+#| fig-width: 7
+#| fig-height: 7
+openair::windRose(ts,ws = "hs",wd = "dp",angle = 10,paddle = FALSE,key.footer = "m",key.header = "Hs",key = list(footer="Significant Wave Height (m)"),ws.int = 1,breaks=5)
 ```
 
 :::
