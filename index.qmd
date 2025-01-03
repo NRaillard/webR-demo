@@ -5,6 +5,8 @@ format:
     webr:
       repos: 
         - https://resourcecode-project.r-universe.dev
+        - https://tidyverse.r-universe.dev
+        - https://r-lib.r-universe.dev
         - https://repo.r-wasm.org
       packages:
         - ggplot2
