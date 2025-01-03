@@ -1,0 +1,98 @@
+---
+title: webR in Quarto HTML Documents
+format:
+  live-html:
+    webr:
+      repos: 
+        - https://resourcecode-project.r-universe.dev
+        - https://repo.r-wasm.org
+      packages:
+        - ggplot2
+        - hexbin
+        - plotly
+        - resourcecodedata
+        - resourcecode
+        - openair
+engine: knitr
+params:
+  year: 2023
+  node_id: 191868
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
+```{ojs}
+//| echo: false
+querystrings = new URL(location).searchParams
+
+node = querystrings.get("node")
+```
+
+This is a webR-enabled code cell in a Quarto HTML document.
+
+
+```{webr}
+#| include: true
+#| autorun: true
+#| runbutton: false
+#| edit: false
+library(resourcecodedata)
+library(resourcecode)
+library(ggplot2)
+library(plotly)
+```
+
+```{webr}
+#| autorun: true
+#| timelimit: 0
+#| input:
+#|   - node
+
+ts <- get_parameters(node =  node, parameters = c("hs", "tp", "dp"),end="1994-01-01 23:00:00")
+```
+
+::: {.panel-tabset}
+
+## Summary statistics
+
+```{webr}
+#| autorun: true
+summary(ts)
+```
+
+## Time series
+
+```{webr}
+plot_ly(ts, x = ~time,y= ~hs ,type='scatter',mode='both')
+```
+
+## Bivariate plot
+
+```{webr}
+#| autorun: true
+
+ggplot(data=ts)+
+  aes(x=hs,y=tp)+
+  geom_hex()+
+  scale_fill_viridis_c()+
+  theme_bw()
+```
+
+```{webr}
+#| autorun: true
+
+ggplot(data=ts)+
+  aes(x=hs,y=dp)+
+  geom_hex()+
+  scale_fill_viridis_c()+
+  theme_bw()
+```
+
+## Wind and wave roses
+
+```{webr}
+#| autorun: true
+openair::windRose(ts,ws = "hs",wd = "dp",angle = 10,paddle = FALSE,key.footer = "m",key.header = "Hs",key = list(footer="Significant Wave Height (m)"),ws.int = .3)
+```
+
+:::
