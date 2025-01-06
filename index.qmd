@@ -3,17 +3,6 @@ title: webR in Quarto HTML Documents
 format:
   live-html:
     webr:
-      repos: 
-        - https://resourcecode-project.r-universe.dev
-        - https://tidyverse.r-universe.dev
-        - https://r-lib.r-universe.dev
-        - https://repo.r-wasm.org
-      packages:
-        - ggplot2
-        - hexbin
-        - resourcecodedata
-        - resourcecode
-        - openair
 engine: knitr
 params:
   year: 2023
@@ -37,6 +26,12 @@ This is a webR-enabled code cell in a Quarto HTML document.
 #| autorun: true
 #| runbutton: false
 #| edit: false
+webr::mount(
+  mountpoint ="/rscd_lib",
+  source = "https://nraillard.github.io/webR-demo/output/vfs/library.data")
+list.files("/rscd_lib")
+.libPaths(c(.libPaths(),"/rscd_lib"))
+
 library(resourcecodedata)
 library(resourcecode)
 library(ggplot2)
