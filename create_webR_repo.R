@@ -23,6 +23,6 @@ rwasm::add_pkg("resourcecode",dependencies=TRUE)
 rwasm::add_pkg("Resourcecode-project/r-resourcecodedata")
 rwasm::add_pkg("ggplot2")
 rwasm::add_pkg("hexbin")
-rwasm::add_pkg("openair")
 
-rwasm::make_vfs_library(compress = TRUE,strip = c("demo, doc, examples, help, html, include, tests, vignette"))
+
+rwasm::make_vfs_library(compress = TRUE,strip = c("demo", "doc", "examples", "help", "html", "include", "tests", "vignette"))
