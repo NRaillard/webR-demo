@@ -388,6 +388,7 @@ ggwindrose(wnd$wspd,wnd$wdir)
 #| include: true
 #| runbutton: false
 #| edit: false
+#| warning: false
 sessioninfo::session_info()
 ```
 
