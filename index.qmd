@@ -32,6 +32,8 @@ webr::mount(
   source = "https://nraillard.github.io/webR-demo/output/vfs/library.data.gz")
 .libPaths(c(.libPaths(),"/rscd_lib"))
 
+install.packages("sessioninfo")
+
 # Adapted from: https://ostluft.github.io/rOstluft.plot/reference/ggwindrose.html
 #' Windrose (speed/direction) diagram
 #'
@@ -367,6 +369,8 @@ ggwindrose(ts$hs,ts$dp,legend_title = "Significant\nwave height (m)")
 
 ### Wind Rose
 
+To draw wind roses, we need additional data that are being downloaded below.
+
 ```{webr}
 #| autorun: false
 #| fig-width: 7
@@ -379,3 +383,13 @@ wnd <- wnd |>
 ggwindrose(wnd$wspd,wnd$wdir)
 ```
 :::
+
+```{webr}
+#| include: true
+#| runbutton: false
+#| edit: false
+#| output: false
+sessioninfo::session_info()
+```
+
+
