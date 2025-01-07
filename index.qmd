@@ -23,9 +23,9 @@ This is a webR-enabled code cell in a Quarto HTML document.
 
 ```{webr}
 #| include: true
-#| autorun: true
 #| runbutton: false
 #| edit: false
+#| output: false
 webr::mount(
   mountpoint ="/rscd_lib",
   source = "https://nraillard.github.io/webR-demo/output/vfs/library.data.gz")
@@ -38,12 +38,14 @@ library(ggplot2)
 ```
 
 ```{webr}
-#| autorun: true
+#| autorun: false
 #| timelimit: 0
 #| input:
 #|   - node
 
-ts <- get_parameters(node =  node, parameters = c("hs", "tp", "dp"),end="1999-12-31 23:00:00")
+ts <- get_parameters(node =  node,
+                     parameters = c("hs", "tp", "dp"),
+                     end="1999-12-31 23:00:00")
 ```
 
 ::: {.panel-tabset}
@@ -51,7 +53,7 @@ ts <- get_parameters(node =  node, parameters = c("hs", "tp", "dp"),end="1999-12
 ## Summary statistics
 
 ```{webr}
-#| autorun: true
+#| autorun: false
 #| fig-width: 8
 #| fig-height: 5
 summary(ts)
@@ -71,7 +73,7 @@ ggplot(data=ts)+
 ## Bivariate plot
 
 ```{webr}
-#| autorun: true
+#| autorun: false
 #| fig-width: 8
 #| fig-height: 5
 ggplot(data=ts)+
@@ -82,7 +84,7 @@ ggplot(data=ts)+
 ```
 
 ```{webr}
-#| autorun: true
+#| autorun: false
 #| fig-width: 8
 #| fig-height: 5
 ggplot(data=ts)+
@@ -95,7 +97,7 @@ ggplot(data=ts)+
 ## Wind and wave roses
 
 ```{webr}
-#| autorun: true
+#| autorun: false
 #| fig-width: 7
 #| fig-height: 7
 openair::windRose(ts,ws = "hs",wd = "dp",angle = 10,paddle = FALSE,key.footer = "m",key.header = "Hs",key = list(footer="Significant Wave Height (m)"),ws.int = 1,breaks=5)
