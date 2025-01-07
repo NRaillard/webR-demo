@@ -4,7 +4,6 @@
 install.packages("pak")
 pak::pak("r-wasm/rwasm")
 
-
 library(rwasm)
 
 oldopt = options(
@@ -19,8 +18,9 @@ oldopt = options(
 
 pak::meta_update()
 
-rwasm::add_pkg("resourcecode",dependencies = TRUE)
+rwasm::add_pkg("Resourcecode-project/r-resourcecodedata")
+rwasm::add_pkg("resourcecode")
 rwasm::add_pkg("hexbin")
+rwasm::add_pkg("openair")
 
-rwasm::file_packager("repo", out_dir = ".", out_name = "output")
-rwasm::make_vfs_library(compress = TRUE)
+rwasm::make_vfs_library(compress = TRUE,strip = c("demo, doc, examples, help, html, include, tests, vignette"))
