@@ -25,7 +25,7 @@ This is a webR-enabled code cell in a Quarto HTML document.
 #| include: true
 #| runbutton: false
 #| edit: false
-#| output: false
+#| warning: false
 webr::mount(
   mountpoint ="/rscd_lib",
   source = "https://nraillard.github.io/webR-demo/output/vfs/library.data.gz")
@@ -35,6 +35,7 @@ list.files("/rscd_lib")
 library(resourcecodedata)
 library(resourcecode)
 library(ggplot2)
+library(plotly)
 ```
 
 ```{webr}
@@ -64,10 +65,10 @@ summary(ts)
 ```{webr}
 #| fig-width: 8
 #| fig-height: 5
-ggplot(data=ts)+
+ggplotly(ggplot(data=ts)+
   aes(x = time,y= hs)+
   geom_line()+
-  theme_bw()
+  theme_bw())
 ```
 
 ## Bivariate plot
