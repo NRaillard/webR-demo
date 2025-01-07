@@ -18,8 +18,10 @@ oldopt = options(
 
 pak::meta_update()
 
+
+rwasm::add_pkg("resourcecode",dependencies=TRUE)
 rwasm::add_pkg("Resourcecode-project/r-resourcecodedata")
-rwasm::add_pkg("resourcecode")
+rwasm::add_pkg("ggplot2")
 rwasm::add_pkg("hexbin")
 rwasm::add_pkg("openair")
 

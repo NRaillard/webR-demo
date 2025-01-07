@@ -28,7 +28,7 @@ This is a webR-enabled code cell in a Quarto HTML document.
 #| edit: false
 webr::mount(
   mountpoint ="/rscd_lib",
-  source = "https://marine-structure.ifremer.fr/vfs/library.data.gz")
+  source = "https://nraillard.github.io/webR-demo/output/vfs/library.data.gz")
 list.files("/rscd_lib")
 .libPaths(c(.libPaths(),"/rscd_lib"))
 
