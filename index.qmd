@@ -1,5 +1,5 @@
 ---
-title: Access Resourcecode hindcast database by usin webR in Quarto HTML Documents
+title: Access Resourcecode hindcast database by using webR in Quarto HTML Documents
 format:
   live-html:
     webr:
