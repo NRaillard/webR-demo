@@ -29,7 +29,7 @@ This is a webR-enabled code cell in a Quarto HTML document. We first have to loa
 #| output: false
 webr::mount(
   mountpoint ="/rscd_lib",
-  source = "https://nraillard.github.io/webR-demo/output/vfs/library.data.gz")
+  source = "https://nraillard.github.io/webR-demo/output/vfs/library.data.gz") #
 .libPaths(c(.libPaths(),"/rscd_lib"))
 
 install.packages("sessioninfo")
@@ -373,6 +373,7 @@ get_parameters = function(parameters, node , start, end){
 #| warning: false
 #library(resourcecodedata)
 #library(resourcecode)
+library(jsonlite)
 library(dplyr)
 library(ggplot2)
 ```

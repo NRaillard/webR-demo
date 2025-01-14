@@ -8,9 +8,8 @@ library(rwasm)
 
 oldopt = options(
   repos = c(
-         CRAN = "https://cran.rstudio.com",
-         packman = "https://packagemanager.posit.co/cran/__linux__/noble/latest",
          runiverse = "https://tidyverse.r-universe.dev",
+		 jsonlite = 'https://jeroen.r-universe.dev',
 		 data.table = 'https://rdatatable.r-universe.dev',
 		 hexbin = 'https://edzer.r-universe.dev',
 		 Hmisc = 'https://harrelfe.r-universe.dev',
@@ -22,10 +21,9 @@ oldopt = options(
 pak::meta_update()
 
 
-rwasm::add_pkg("resourcecode",dependencies=TRUE)
-rwasm::add_pkg("Resourcecode-project/r-resourcecodedata")
-rwasm::add_pkg("ggplot2")
-rwasm::add_pkg("hexbin")
+# rwasm::add_pkg("resourcecode",dependencies=TRUE)
+# rwasm::add_pkg("Resourcecode-project/r-resourcecodedata")
+rwasm::add_pkg(c("jsonlite","ggplot2","hexbin"), dependencies = NA)
 
 
 rwasm::make_vfs_library(compress = TRUE,strip = c("demo", "doc", "examples", "help", "html", "include", "tests", "vignette"))
