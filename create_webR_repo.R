@@ -10,7 +10,10 @@ oldopt = options(
   repos = c(
          CRAN = "https://cran.rstudio.com",
          packman = "https://packagemanager.posit.co/cran/__linux__/noble/latest",
-         runiverse = "https://resourcecode-project.r-universe.dev",
+         runiverse = "https://tidyverse.r-universe.dev",
+		 data.table = 'https://rdatatable.r-universe.dev',
+		 hexbin = 'https://edzer.r-universe.dev',
+		 Hmisc = 'https://harrelfe.r-universe.dev',
          cloud = "https://cloud.r-project.org",
          wasm = 'https://repo.r-wasm.org'
     )

@@ -1,5 +1,5 @@
 ---
-title: webR in Quarto HTML Documents
+title: Access Resourcecode hindcast database by usin webR in Quarto HTML Documents
 format:
   live-html:
     webr:
@@ -18,7 +18,7 @@ querystrings = new URL(location).searchParams
 node = querystrings.get("node")
 ```
 
-This is a webR-enabled code cell in a Quarto HTML document.
+This is a webR-enabled code cell in a Quarto HTML document. We first have to load the packages needed.
 
 
 ```{webr}
@@ -286,6 +286,84 @@ ggwindrose <- function(speed, direction, n_directions = 8, n_speeds = 5,
 
   return(windrose_plot)
 }
+
+get_parameters_raw <- function(parameter = "hs",
+                               node = 42,
+                               start = as.POSIXct("1994-01-01Z00:00:00"),
+                               end = as.POSIXct("1994-12-31Z23:00:00")) {
+  if (parameter == "tp") {
+    single_parameter <- "fp"
+  } else {
+    single_parameter <- parameter
+  }
+
+  rcd_cassandra_url = "https://resourcecode-datacharts.ifremer.fr"
+  
+  start_str <- strftime(start, format = "%Y-%m-%dT%H:%M:%SZ")
+  end_str <- strftime(end, format = "%Y-%m-%dT%H:%M:%SZ")
+
+  # Cassandra database start indexing at 1, so decrements node number
+  node <- node - 1
+
+  request <- paste0(
+    rcd_cassandra_url, "/api/timeseries",
+    "?parameter=", single_parameter,
+    "&node=", node,
+    "&start=", start_str,
+    "&end=", end_str
+  )
+
+  res <- jsonlite::fromJSON(request)
+
+  if (res$errorcode != 0) {
+    stop(paste0(
+      "Unable to get a response from the database.\nStatus code: ",
+      res$errormessage
+    ))
+  }
+
+  data <- res$result$data
+  colnames(data) <- c("time", parameter)
+  data <- tibble::as_tibble(data)
+
+
+  if (parameter == "tp") {
+    data[, 2] <- 1 / data[, 2]
+  }
+
+  data$time <- as.POSIXct(data$time / 1000,
+    origin = as.POSIXct("1970-01-01", tz = "UTC"),
+    tz = "UTC"
+  ) # Convert UNIX time (ms) to POSIXct format
+  attr(data, "node") <- node
+  data
+}
+
+get_parameters = function(parameters, node , start, end){
+  
+  if (is.character(start)) {
+    start <- as.POSIXct(start, tz = "UTC")
+  }
+  if (is.character(end)) {
+    end <- as.POSIXct(end, tz = "UTC")
+  }
+
+  if (is.numeric(start)) {
+    start <- as.POSIXct(start, tz = "UTC", origin = as.POSIXct("1970-01-01 00:00:00", tz = "UTC"))
+  }
+  if (is.numeric(end)) {
+    end <- as.POSIXct(end, tz = "UTC", origin = as.POSIXct("1970-01-01 00:00:00", tz = "UTC"))
+  }
+  
+  out <- get_parameters_raw(parameters[1], node = node, start = start, end = end)
+
+  for (i in seq_len(length(parameters) - 1)) {
+    temp <- get_parameters_raw(parameters[i + 1], node = node, start = start, end = end)
+    out <- cbind(out, temp[, 2])
+  }
+  out
+}
+
 ```
 
 ```{webr}
@@ -293,20 +371,22 @@ ggwindrose <- function(speed, direction, n_directions = 8, n_speeds = 5,
 #| runbutton: false
 #| edit: false
 #| warning: false
-library(resourcecodedata)
-library(resourcecode)
+#library(resourcecodedata)
+#library(resourcecode)
 library(dplyr)
 library(ggplot2)
 ```
+
+Once everything is up and working, we can click on the blue button to run the data exploration.
 
 ```{webr}
 #| autorun: false
 #| timelimit: 0
 #| input:
 #|   - node
-
 ts <- get_parameters(node =  node,
                      parameters = c("hs", "tp", "dp"),
+                     start = "1994-01-01 00:00:00",
                      end="2000-12-31 23:00:00")
 ```
 
@@ -383,6 +463,9 @@ wnd <- wnd |>
 ggwindrose(wnd$wspd,wnd$wdir)
 ```
 :::
+
+
+For reproducibility purpose and debugging, we show the session information bellow.
 
 ```{webr}
 #| include: true
