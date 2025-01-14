@@ -23,7 +23,7 @@ pak::meta_update()
 
 # rwasm::add_pkg("resourcecode",dependencies=TRUE)
 # rwasm::add_pkg("Resourcecode-project/r-resourcecodedata")
-rwasm::add_pkg(c("jsonlite","ggplot2","hexbin"), dependencies = NA)
+rwasm::add_pkg(c("jsonlite","dplyr","ggplot2","hexbin"), dependencies = NA)
 
 
 rwasm::make_vfs_library(compress = TRUE,strip = c("demo", "doc", "examples", "help", "html", "include", "tests", "vignette"))
