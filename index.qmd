@@ -400,7 +400,7 @@ Once everything is up and working, we can click on the blue button to run the da
 #| input:
 #|   - node
 ts <- get_parameters(node =  node,
-                     parameters = c("hs", "tp", "dp"),
+                     parameters = c("hs", "tp", "dp","cge"),
                      start = "1994-01-01 00:00:00",
                      end="2000-12-31 23:00:00")
 ```
@@ -408,6 +408,22 @@ ts <- get_parameters(node =  node,
 ::: {.panel-tabset}
 
 ## Summary statistics
+
+# Extraction of data from the hindcast data base and summary statistics
+You have selected a node, and it is possible to retrieve the data from the Casandra database. For this example, we have selected some variables. The list of available variables can be obtained using the `get_variables` method in the resourcecode module.
+We study here the following variables:
+
+- $H_s$ the significant wave height;
+- $f_p$ the peak frequency;
+- $D_p$ the direction at peak frequency;
+- The energy flux $CgE$;
+
+```{webr}
+#| autorun: false
+#| fig-width: 8
+#| fig-height: 5
+head(ts)
+```
 
 ```{webr}
 #| autorun: false
@@ -418,17 +434,32 @@ summary(ts)
 
 ## Time series
 
+The figure below is an example of the time series that can be extracted from the database. 
+
+$H_s$, $T_p$ and $CgE$ are shown here, but the code can be changed to plot any of the available variables.
+
 ```{webr}
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 6
 ggplot(data=ts)+
   aes(x = time,y= hs)+
+  geom_line()+
+  theme_bw()
+ggplot(data=ts)+
+  aes(x = time,y= tp)+
+  geom_line()+
+  theme_bw()
+ggplot(data=ts)+
+  aes(x = time,y= cge)+
   geom_line()+
   theme_bw()
 ```
 
 ## Bivariate plots
 
+The figure below shows the joint distributions: 
+
+$(H_s,\ T_p)$
 ```{webr}
 #| autorun: false
 #| fig-width: 8
@@ -440,6 +471,7 @@ ggplot(data=ts)+
   theme_bw()
 ```
 
+$(H_s,\ D_p)$
 ```{webr}
 #| autorun: false
 #| fig-width: 8
@@ -450,6 +482,19 @@ ggplot(data=ts)+
   scale_fill_viridis_c()+
   theme_bw()
 ```
+
+and $(H_s,\ CgE)$
+```{webr}
+#| autorun: false
+#| fig-width: 8
+#| fig-height: 5
+ggplot(data=ts)+
+  aes(x=hs,y=cge)+
+  geom_hex()+
+  scale_fill_viridis_c()+
+  theme_bw()
+```
+
 
 ## Wind and wave roses
 
@@ -472,9 +517,11 @@ To draw wind roses, we need additional data that are being downloaded below.
 #| fig-height: 7
 wnd <- get_parameters(node =  node,
                      parameters = c("uwnd", "uwnd"),
+                     start = "1994-01-01 00:00:00",
                      end="2000-12-31 23:00:00")
 wnd <- wnd |>
    mutate(zmcomp2metconv(uwnd,uwnd))
+
 ggwindrose(wnd$wspd,wnd$wdir)
 ```
 :::
