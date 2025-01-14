@@ -386,9 +386,7 @@ zmcomp2metconv = function (u, v = NULL, names = c("wspd", "wdir"))
 #| include: true
 #| runbutton: false
 #| edit: false
-#| warning: true
-#library(resourcecodedata)
-#library(resourcecode)
+#| warning: false
 library(jsonlite)
 library(dplyr)
 library(ggplot2)
