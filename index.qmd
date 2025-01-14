@@ -480,7 +480,10 @@ ggwindrose(wnd$wspd,wnd$wdir)
 :::
 
 
+::: {.callout-note collapse="true"}
+## Session information
 For reproducibility purpose and debugging, we show the session information bellow.
+
 
 ```{webr}
 #| include: true
