@@ -399,7 +399,6 @@ Once everything is up and working, we can click on the blue button to run the da
 #| timelimit: 0
 #| input:
 #|   - node
-node
 ts <- get_parameters(node =  node,
                      parameters = c("hs", "tp", "dp"),
                      start = "1994-01-01 00:00:00",
